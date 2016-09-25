@@ -75,7 +75,6 @@
         android:layout_gravity="bottom"
         android:src="@drawable/back" />
     <ImageView
-        android:id="@+id/title_long"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/longline"
@@ -87,7 +86,6 @@
         android:layout_gravity="bottom"
         android:src="@drawable/back" />
     <ImageView
-        android:id="@+id/title_button1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/button"

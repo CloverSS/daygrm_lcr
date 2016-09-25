@@ -5,6 +5,12 @@
     android:layout_height="match_parent"
     android:background="@drawable/mainbg"
     android:orientation="vertical">
-
+    <include layout="@layout/bottom"/>
+    <ListView
+        android:id="@+id/list_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="40dp">
+    </ListView>
 
 </RelativeLayout>

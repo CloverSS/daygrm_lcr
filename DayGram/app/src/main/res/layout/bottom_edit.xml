@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:layout_gravity="bottom"
+        android:src="@drawable/back" />
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="17dp"
+        android:src="@drawable/clock" />
+    <ImageView
+    android:layout_width="250dip"
+    android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+    android:layout_gravity="bottom"
+    android:src="@drawable/back" />
+    <Button
+        android:id="@+id/edit_done"
+        android:layout_width="55dp"
+        android:layout_height="30dp"
+        android:background="@drawable/done_btn"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="7dp" />
+</LinearLayout>

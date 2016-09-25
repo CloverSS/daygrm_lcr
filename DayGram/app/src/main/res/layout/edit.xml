@@ -4,32 +4,36 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@drawable/editbg">
+
     <TextView
+        android:id="@+id/edit_title"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top"
-        android:layout_marginTop="20dp"
+        android:layout_height="50dip"
+        android:layout_gravity="center"
+        android:layout_marginTop="25dp"
         android:layout_marginRight="20dp"
         android:layout_marginLeft="20dp"
-        android:text="WEDNESDAY / SEPTEMBER 21 / 2016"
-        android:textSize="20sp"
+        android:textSize="23sp"
         android:textStyle="bold"
-        android:textColor="#696464"
+        android:textColor="@color/abc_secondary_text_material_light"
         />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="15dp"
-       android:layout_gravity="center"
-        android:src="@drawable/line3" />
+        android:src="@drawable/line3"
+        android:layout_gravity="center" />
 
     <EditText
         android:id="@+id/edit_text"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginRight="25dp"
         android:layout_marginLeft="25dp"
         android:hint="记下今天的心情"
      />
+    <include layout="@layout/bottom_edit"
+         />
+
 </LinearLayout>
