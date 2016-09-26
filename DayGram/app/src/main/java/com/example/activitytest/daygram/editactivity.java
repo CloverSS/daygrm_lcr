@@ -24,10 +24,12 @@ public class editactivity  extends Activity implements View.OnClickListener{
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.edit);
-        tddiary = (Diary) getIntent().getSerializableExtra("today");
+        Intent intent=getIntent();
+        tddiary = (Diary) intent.getSerializableExtra("today");
+        int Year=intent.getIntExtra("Year",-1);
         String month=monthS[Integer.parseInt( tddiary.getmonth())-1];
 
-        String edit_title = tddiary.getdaycount() + ". /" +month + " "+tddiary.getdayNum() + " / 2016";
+        String edit_title = tddiary.getdaycount() + ". /" +month + " "+tddiary.getdayNum() + " / "+String.valueOf(Year);
         editTitle = (TextView) findViewById(R.id.edit_title);
         editTitle.setText(edit_title);
 

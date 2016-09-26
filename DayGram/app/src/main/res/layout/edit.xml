@@ -31,7 +31,8 @@
         android:layout_height="wrap_content"
         android:layout_marginRight="25dp"
         android:layout_marginLeft="25dp"
-        android:hint="记下今天的心情"
+        android:background="@null"
+
      />
     <include layout="@layout/bottom_edit"
          />

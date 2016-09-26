@@ -62,17 +62,6 @@ public class DiaryAdapter extends BaseAdapter {
             return convertView;
         } else {
             ViewHolder holder;
-            //判断是否缓存
-           /* if (convertView == null) {
-            /*if(getItemViewType(position)  ==  0) {      //如果类型是0
-                //通过LayoutInflater实例化布局
-                holder  =   new ViewHolder() ;
-                convertView = mInflater.inflate(R.layout.dot_item, null);
-                holder.daycount= (TextView) convertView.findViewById(R.id.count_list);
-                holder.daynum= (TextView) convertView.findViewById(R.id.num_list);
-                holder.diarycontent= (TextView) convertView.findViewById(R.id.content_list);
-            }
-            else{*/
             holder = new ViewHolder();
             convertView = mInflater.inflate(R.layout.list_item, null);
             //绑定id
@@ -80,10 +69,6 @@ public class DiaryAdapter extends BaseAdapter {
             holder.daynum = (TextView) convertView.findViewById(R.id.num_list);
             holder.diarycontent = (TextView) convertView.findViewById(R.id.content_list);
             convertView.setTag(holder);         //为View设置tag
-
-        /*else {
-                holder = (ViewHolder) convertView.getTag();      //通过tag找到缓存的布局
-            }*/
             //设置布局中控件要显示的视图
             holder.daycount.setText(mData.get(position).getdaycount());
             holder.daynum.setText(mData.get(position).getdayNum());

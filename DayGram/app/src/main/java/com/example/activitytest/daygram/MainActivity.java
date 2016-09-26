@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Spinner;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -27,12 +28,16 @@ import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends Activity {
-    int[] daynum_month={31,30,31,30,31,30,31,31,30,31,30,31};
+    int[] daynum_month={31,29,31,30,31,30,31,31,30,31,30,31};
     private    ListView   mListView ;
     private DiaryAdapter adpter;
     Diary tddiary=new Diary(0,"","","","");//被操作的某天数据
     ArrayList<Diary> data = new ArrayList<Diary>(); // 当月数据
     int mday;//被操作日期
+    String nameFile;
+
+    int YearNow;
+    int MonthNow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,12 +45,11 @@ public class MainActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
 
+        getNow();
+        tminit(MonthNow,YearNow);//初始化显示当月日记
+
+
         mListView   =   (ListView)findViewById(R.id.list_view);
-       data=(ArrayList<Diary>)getObject("object_2016_9");
-       // data.set(2,new Diary(1,"2","9","WED","HAPPY"));
-        //按照月份初始化，默认当前月
-
-
         adpter=new DiaryAdapter(this , data);
         mListView.setAdapter(adpter); //为ListView设置适配器
         //按下list中元素，进入编辑页面，传入对象
@@ -55,11 +59,47 @@ public class MainActivity extends Activity {
                 mday = position;
                 Intent intent = new Intent(MainActivity.this, editactivity.class);
                 tddiary = data.get(mday);
-                tddiary.setdaycount(getweek(2016,tddiary.getmonth(),tddiary.getdayNum()));
+                tddiary.setdaycount(getweek(YearNow,tddiary.getmonth(),tddiary.getdayNum()));
                 Bundle mBundle = new Bundle();
                 mBundle.putSerializable("today", tddiary);
                 intent.putExtras(mBundle);
+                intent.putExtra("Year",YearNow);
                 startActivityForResult(intent, 1);
+            }
+        });
+
+        //spinner监听
+        final Spinner spinnerM = (Spinner) findViewById(R.id.spinner_month);
+        spinnerM.setSelection(MonthNow-1,true);
+        spinnerM.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int pos, long id) {
+                MonthNow=pos+1;
+                tminit(MonthNow,YearNow);
+                adpter=new DiaryAdapter(MainActivity.this , data);
+                mListView.setAdapter(adpter);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Another interface callback
+            }
+        });
+        final Spinner spinnerY = (Spinner) findViewById(R.id.spinner_year);
+        spinnerY.setSelection(YearNow-2012,true);
+        spinnerY.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int pos, long id) {
+
+                YearNow=pos+2012;
+                tminit(MonthNow,YearNow);
+                adpter=new DiaryAdapter(MainActivity.this , data);
+                mListView.setAdapter(adpter);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Another interface callback
             }
         });
 
@@ -68,6 +108,12 @@ public class MainActivity extends Activity {
         button_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                getNow();
+                spinnerM.setSelection(MonthNow-1,true);
+                spinnerY.setSelection(YearNow-2012,true);
+                tminit(MonthNow,YearNow);
+                adpter=new DiaryAdapter(MainActivity.this , data);
+                mListView.setAdapter(adpter);
                 Intent intent=new Intent(MainActivity.this,editactivity.class);
                 mday=getdaytime()-1;
                 tddiary=data.get(mday);
@@ -75,6 +121,7 @@ public class MainActivity extends Activity {
                 Bundle mBundle = new Bundle();
                 mBundle.putSerializable("today",tddiary);
                 intent.putExtras(mBundle);
+                intent.putExtra("Year",YearNow);
                 startActivityForResult(intent,1);
             }
         });
@@ -93,7 +140,7 @@ public class MainActivity extends Activity {
                     tddiary.setType(1);
                     tddiary.setdiaryText(new_diary);
                     data.set(mday,tddiary);
-                    saveObject("object_2016_9");
+                    saveObject(nameFile);
                     adpter.notifyDataSetChanged();
                 }
                 break;
@@ -165,17 +212,25 @@ public class MainActivity extends Activity {
     }
 
     //初始化一个月数据
-    private void tminit(int monthNum)
+    private void tminit(int monthNum,int yearNum)
     {
-        String emptystr="";
-        String monthcount=String.valueOf(monthNum);
-        int daymax=daynum_month[monthNum-1];
-        for(int i=0;i<daymax;i++)
-        {
-            String daynum=String.valueOf(i+1);
-            data.add(new Diary(0,daynum,monthcount,emptystr,emptystr));
+        data.clear();
+       nameFile="object_"+String.valueOf(yearNum)+"_"+String.valueOf(monthNum);
+        if(getObject(nameFile)==null) {
+            String emptystr = "";
+            String monthcount = String.valueOf(monthNum);
+            int daymax = daynum_month[monthNum - 1];
+            for (int i = 0; i < daymax; i++) {
+                String daynum = String.valueOf(i + 1);
+                data.add(new Diary(0, daynum, monthcount, emptystr, emptystr));
+            }
         }
+        else
+            {
+                data=(ArrayList<Diary>)getObject(nameFile);
+            }
     }
+
 
     String getweek(int year,String wmonth,String wday)
     {
@@ -197,6 +252,12 @@ public class MainActivity extends Activity {
         final Calendar c = Calendar.getInstance();
         mday=c.get(Calendar.DAY_OF_MONTH);
         return mday;
+    }
+    private void getNow()
+    {
+        final Calendar c = Calendar.getInstance();
+        MonthNow=c.get(Calendar.MONTH)+1;
+        YearNow=c.get(Calendar.YEAR);
     }
 }
 
