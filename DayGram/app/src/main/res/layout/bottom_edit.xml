@@ -6,15 +6,16 @@
     <ImageView
         android:layout_width="30dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"
+        android:layout_marginBottom="10dp"
         android:layout_gravity="bottom"
         android:src="@drawable/back" />
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <Button
+        android:id="@+id/edit_clock"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
         android:layout_gravity="bottom"
-        android:layout_marginBottom="17dp"
-        android:src="@drawable/clock" />
+        android:layout_marginBottom="6dp"
+        android:background="@drawable/clock" />
     <ImageView
     android:layout_width="250dip"
     android:layout_height="wrap_content"

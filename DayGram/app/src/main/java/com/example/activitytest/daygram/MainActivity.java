@@ -48,7 +48,7 @@ public class MainActivity extends Activity {
         getNow();
         tminit(MonthNow,YearNow);//初始化显示当月日记
 
-
+       //listview 显示当月日记
         mListView   =   (ListView)findViewById(R.id.list_view);
         adpter=new DiaryAdapter(this , data);
         mListView.setAdapter(adpter); //为ListView设置适配器
@@ -135,8 +135,6 @@ public class MainActivity extends Activity {
             case 1:
                 if (resultCode == RESULT_OK) {
                     String new_diary = datait.getStringExtra("new_diary");
-                    //Diary newdiary = new Diary();
-                    //newdiary= (Diary) datait.getSerializableExtra("new_diary");
                     tddiary.setType(1);
                     tddiary.setdiaryText(new_diary);
                     data.set(mday,tddiary);
@@ -222,7 +220,8 @@ public class MainActivity extends Activity {
             int daymax = daynum_month[monthNum - 1];
             for (int i = 0; i < daymax; i++) {
                 String daynum = String.valueOf(i + 1);
-                data.add(new Diary(0, daynum, monthcount, emptystr, emptystr));
+                String daycount=getweek(yearNum,String.valueOf(monthNum),daynum);
+                data.add(new Diary(0, daynum, monthcount, daycount, emptystr));
             }
         }
         else
@@ -234,11 +233,11 @@ public class MainActivity extends Activity {
 
     String getweek(int year,String wmonth,String wday)
     {
-        String weekOfday[]={"SUN","MON","TUE","WED","THU","FRI","SAT"};
+        String weekOfday[]={"SUNDAY","MONDAY","TUESDAY","WEDNESDAY","THURSDAY","FRIDAY","SATURDAY"};
         int wmonthInt=Integer.parseInt( wmonth );
         int wdayInt=Integer.parseInt( wday);
         Calendar cal = Calendar.getInstance();
-        cal.set(year,wmonthInt-1,wdayInt);//这里的月份是从0开始算起的
+        cal.set(year,wmonthInt-1,wdayInt);
         Date dt = cal.getTime();
         cal.setTime(dt);
         int week_selected = cal.get(Calendar.DAY_OF_WEEK);

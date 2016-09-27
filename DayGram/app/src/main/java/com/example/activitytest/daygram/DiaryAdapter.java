@@ -1,5 +1,6 @@
 package com.example.activitytest.daygram;
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,7 +59,10 @@ public class DiaryAdapter extends BaseAdapter {
 
         if (getItemViewType(position) == 0) {      //如果类型是0
             //通过LayoutInflater实例化布局
-            convertView = mInflater.inflate(R.layout.dot_item, null);
+            if(mData.get(position).getdaycount().equals("SUNDAY")||mData.get(position).getdaycount().equals("SATURDAY"))
+                convertView = mInflater.inflate(R.layout.rdot_item, null);
+            else
+                convertView = mInflater.inflate(R.layout.dot_item, null);
             return convertView;
         } else {
             ViewHolder holder;
@@ -70,12 +74,15 @@ public class DiaryAdapter extends BaseAdapter {
             holder.diarycontent = (TextView) convertView.findViewById(R.id.content_list);
             convertView.setTag(holder);         //为View设置tag
             //设置布局中控件要显示的视图
-            holder.daycount.setText(mData.get(position).getdaycount());
+            int len=mData.get(position).getdiaryText().length();
+            len=minx(len,70);
+            holder.daycount.setText(mData.get(position).getdaycount().substring(0,3));
             holder.daynum.setText(mData.get(position).getdayNum());
-            holder.diarycontent.setText(mData.get(position).getdiaryText());
+            holder.diarycontent.setText(mData.get(position).getdiaryText().substring(0,len));
+            if(mData.get(position).getdaycount().equals("SUNDAY")||mData.get(position).getdaycount().equals("SATURDAY"))
+                holder.daynum.setTextColor(Color.parseColor("#FFE43440"));
             return convertView;     //返回一个view
         }
-
     }
 
     /**
@@ -85,7 +92,13 @@ public class DiaryAdapter extends BaseAdapter {
         public TextView daycount;
         public TextView daynum;
         public TextView diarycontent;
-
+    }
+    private int minx(int a,int b)
+    {
+        if(a>b)
+            return b;
+        else
+            return a;
     }
 }
 
